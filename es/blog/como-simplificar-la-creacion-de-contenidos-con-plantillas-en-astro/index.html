@@ -1,0 +1,810 @@
+<!DOCTYPE html><html lang="es"> <head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><!-- Favicons based on https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs --><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.webmanifest"><!-- Primary Meta Tags --><title>Cómo simplificar la creación de contenidos con layouts de Astro | Borja LoFe</title><meta name="title" content="Cómo simplificar la creación de contenidos con layouts de Astro | Borja LoFe"><meta name="description" content="En este artículo seguiremos refactorizando nuestro blog basado en Astro para facilitar la creación de contenidos."><!-- Canonical URL --><link rel="canonical" href="https://borjalofe/es/blog/como-simplificar-la-creacion-de-contenidos-con-plantillas-en-astro/"><link rel="alternate" hreflang="en" href="https://borjalofe/blog/how-to-simplify-content-creation-with-astro-layouts"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://borjalofe/es/blog/como-simplificar-la-creacion-de-contenidos-con-plantillas-en-astro/"><meta property="og:title" content="Cómo simplificar la creación de contenidos con layouts de Astro | Borja LoFe"><meta property="og:description" content="En este artículo seguiremos refactorizando nuestro blog basado en Astro para facilitar la creación de contenidos."><meta property="og:image" content="https://borjalofe/blog-placeholder-2.jpg"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://borjalofe/es/blog/como-simplificar-la-creacion-de-contenidos-con-plantillas-en-astro/"><meta property="twitter:title" content="Cómo simplificar la creación de contenidos con layouts de Astro | Borja LoFe"><meta property="twitter:description" content="En este artículo seguiremos refactorizando nuestro blog basado en Astro para facilitar la creación de contenidos."><meta property="twitter:image" content="https://borjalofe/blog-placeholder-2.jpg"><!-- Font preloads --><link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin><style>:root{--accent: #2337ff;--accent-dark: #000d8a;--black: 15, 18, 25;--gray: 96, 115, 159;--gray-light: 229, 233, 240;--gray-dark: 34, 41, 57;--gray-gradient: rgba(var(--gray-light), 50%), #fff;--box-shadow: 0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%), 0 16px 32px rgba(var(--gray), 33%)}@font-face{font-family:Atkinson;src:url(/fonts/atkinson-regular.woff) format("woff");font-weight:400;font-style:normal;font-display:swap}@font-face{font-family:Atkinson;src:url(/fonts/atkinson-bold.woff) format("woff");font-weight:700;font-style:normal;font-display:swap}body{font-family:Atkinson,sans-serif;margin:0;padding:0;text-align:left;background:linear-gradient(var(--gray-gradient)) no-repeat;background-size:100% 600px;word-wrap:break-word;overflow-wrap:break-word;color:rgb(var(--gray-dark));font-size:20px;line-height:1.7}main{width:960px;max-width:calc(100% - 2em);margin:auto;padding:3em 1em}h1,h2,h3,h4,h5,h6{margin:0 0 .5rem;color:rgb(var(--black));line-height:1.2}h1{font-size:3.052em}h2{font-size:2.441em}h3{font-size:1.953em}h4{font-size:1.563em}h5{font-size:1.25em}strong,b{font-weight:700}a,a:hover{color:var(--accent)}p{margin-bottom:1em}.prose p{margin-bottom:2em}textarea{width:100%;font-size:16px}input{font-size:16px}table{width:100%}img{max-width:100%;height:auto;border-radius:8px}code{padding:2px 5px;background-color:rgb(var(--gray-light));border-radius:2px}pre{padding:1.5em;border-radius:8px}pre>code{all:unset}blockquote{border-left:4px solid var(--accent);padding:0 0 0 20px;margin:0;font-size:1.333em}hr{border:none;border-top:1px solid rgb(var(--gray-light))}@media (max-width: 720px){body{font-size:18px}main{padding:1em}}.sr-only{border:0;padding:0;margin:0;position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px 1px 1px 1px);clip:rect(1px,1px,1px,1px);clip-path:inset(50%);white-space:nowrap}a[data-astro-cid-eimmu3lg]{display:inline-block;text-decoration:none}a[data-astro-cid-eimmu3lg].active{font-weight:bolder;text-decoration:underline}header[data-astro-cid-3ef6ksr2]{margin:0;padding:0 1em;background:#fff;box-shadow:0 2px 8px rgba(var(--black),5%)}h2[data-astro-cid-3ef6ksr2]{margin:0;font-size:1em}h2[data-astro-cid-3ef6ksr2] a[data-astro-cid-3ef6ksr2],h2[data-astro-cid-3ef6ksr2] a[data-astro-cid-3ef6ksr2].active{text-decoration:none}nav[data-astro-cid-3ef6ksr2]{display:flex;align-items:center;justify-content:space-between}nav[data-astro-cid-3ef6ksr2] a[data-astro-cid-3ef6ksr2]{padding:1em .5em;color:var(--black);border-bottom:4px solid transparent;text-decoration:none}nav[data-astro-cid-3ef6ksr2] a[data-astro-cid-3ef6ksr2].active{text-decoration:none;border-bottom-color:var(--accent)}.social-links[data-astro-cid-3ef6ksr2],.social-links[data-astro-cid-3ef6ksr2] a[data-astro-cid-3ef6ksr2]{display:flex}@media (max-width: 720px){.social-links[data-astro-cid-3ef6ksr2]{display:none}}footer[data-astro-cid-sz7xmlte]{padding:2em 1em 6em;background:linear-gradient(var(--gray-gradient)) no-repeat;color:rgb(var(--gray));text-align:center}.social-links[data-astro-cid-sz7xmlte]{display:flex;justify-content:center;gap:1em;margin-top:1em}.social-links[data-astro-cid-sz7xmlte] a[data-astro-cid-sz7xmlte]{text-decoration:none;color:rgb(var(--gray))}.social-links[data-astro-cid-sz7xmlte] a[data-astro-cid-sz7xmlte]:hover{color:rgb(var(--gray-dark))}.skip-link-wrapper[data-astro-cid-hoe5mouk]{display:flex;justify-content:center;position:absolute;top:-100vh;left:auto;right:auto;width:100%;opacity:0;pointer-events:none;transform:translateY(0);transition:top var(--duration-link) linear var(--duration-link),opacity var(--duration-link) ease-in,transform var(--duration-link) ease-in}.skip-link-wrapper[data-astro-cid-hoe5mouk]:focus-within{top:0;opacity:1;transform:translateY(var(--space-m));transition:opacity var(--duration-link-hover) ease-out,transform var(--duration-link-hover) ease-out}.skip-link[data-astro-cid-hoe5mouk]{padding:var(--space-xs);background-color:var(--bg-light);pointer-events:all}
+.menu-container[data-astro-cid-7xjzxsz4]{position:relative;display:inline-block}.menu-checkbox[data-astro-cid-7xjzxsz4]{display:none}.menu-label[data-astro-cid-7xjzxsz4]{cursor:pointer;padding:10px 20px;border:none;border-radius:4px;display:inline-block}.menu-content[data-astro-cid-7xjzxsz4]{display:none;position:absolute;background-color:#f9f9f9;min-width:70px;box-shadow:0 8px 16px #0003;z-index:1;margin-top:5px;border-radius:4px}.menu-content[data-astro-cid-7xjzxsz4] a[data-astro-cid-7xjzxsz4]{color:#000;padding:12px 16px;text-decoration:none;display:block}.menu-content[data-astro-cid-7xjzxsz4] a[data-astro-cid-7xjzxsz4]:hover{background-color:#f1f1f1}.menu-checkbox[data-astro-cid-7xjzxsz4]:checked+.menu-label[data-astro-cid-7xjzxsz4]+.menu-content[data-astro-cid-7xjzxsz4]{display:block}.caret-icon[data-astro-cid-7xjzxsz4]{transition:transform .3s ease}.menu-checkbox[data-astro-cid-7xjzxsz4]:checked+.menu-label[data-astro-cid-7xjzxsz4] .caret-icon[data-astro-cid-7xjzxsz4]{transform:rotate(-180deg)}
+ul[data-astro-cid-wfyxae4o]{display:flex;flex-wrap:wrap;gap:2rem;list-style-type:none;margin:0;padding:0}ul[data-astro-cid-wfyxae4o] li[data-astro-cid-wfyxae4o]{width:calc(50% - 1rem)}ul[data-astro-cid-wfyxae4o] li[data-astro-cid-wfyxae4o] [data-astro-cid-wfyxae4o]{text-decoration:none;transition:.2s ease}ul[data-astro-cid-wfyxae4o] li[data-astro-cid-wfyxae4o]:first-child{width:100%;margin-bottom:1rem;text-align:center}ul[data-astro-cid-wfyxae4o] li[data-astro-cid-wfyxae4o]:first-child img[data-astro-cid-wfyxae4o]{width:100%}ul[data-astro-cid-wfyxae4o] li[data-astro-cid-wfyxae4o]:first-child .title[data-astro-cid-wfyxae4o]{font-size:2.369rem}ul[data-astro-cid-wfyxae4o] li[data-astro-cid-wfyxae4o] img[data-astro-cid-wfyxae4o]{margin-bottom:.5rem;border-radius:12px}ul[data-astro-cid-wfyxae4o] li[data-astro-cid-wfyxae4o] a[data-astro-cid-wfyxae4o]{display:block}.title[data-astro-cid-wfyxae4o]{margin:0;color:rgb(var(--black));line-height:1}.date[data-astro-cid-wfyxae4o]{margin:0;color:rgb(var(--gray))}ul[data-astro-cid-wfyxae4o] li[data-astro-cid-wfyxae4o] a[data-astro-cid-wfyxae4o]:hover h4[data-astro-cid-wfyxae4o],ul[data-astro-cid-wfyxae4o] li[data-astro-cid-wfyxae4o] a[data-astro-cid-wfyxae4o]:hover .date[data-astro-cid-wfyxae4o]{color:rgb(var(--accent))}ul[data-astro-cid-wfyxae4o] a[data-astro-cid-wfyxae4o]:hover img[data-astro-cid-wfyxae4o]{box-shadow:var(--box-shadow)}@media (max-width: 720px){ul[data-astro-cid-wfyxae4o]{gap:.5em}ul[data-astro-cid-wfyxae4o] li[data-astro-cid-wfyxae4o]{width:100%;text-align:center}ul[data-astro-cid-wfyxae4o] li[data-astro-cid-wfyxae4o]:first-child{margin-bottom:0}ul[data-astro-cid-wfyxae4o] li[data-astro-cid-wfyxae4o]:first-child .title[data-astro-cid-wfyxae4o]{font-size:1.563em}}
+</style><script type="module">(function(){const t=document.querySelector("#main>article")?.getAttribute("data-locales")?.split(","),o=document.querySelector("#main>article")?.getAttribute("data-selected-locale");if(t&&t?.length>0){let l=[];for(const e of t)l=[...l,...Array.from(document.querySelectorAll(`#main [lang="${e}"]`))];for(const e of l)e.getAttribute("lang")!==o?e.remove():(e.tagName.toLowerCase()==="h1"&&(document.title=e.innerHTML),e.style.display="block")}})();
+</script></head><body> <header data-astro-cid-3ef6ksr2> <nav data-astro-cid-3ef6ksr2> <h2 data-astro-cid-3ef6ksr2><a href="/" data-astro-cid-3ef6ksr2>Borja LoFe</a></h2> <div class="internal-links" data-astro-cid-3ef6ksr2> <a href="/es" data-astro-cid-3ef6ksr2 data-astro-cid-eimmu3lg> Inicio </a> <a href="/es/blog" data-astro-cid-3ef6ksr2 data-astro-cid-eimmu3lg> Blog </a>  </div>  <div class="menu-container" data-astro-cid-7xjzxsz4>  <input type="checkbox" id="menu-toggle" class="menu-checkbox" data-astro-cid-7xjzxsz4> <label for="menu-toggle" class="menu-label" data-astro-cid-7xjzxsz4> ES <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="caret-icon" data-astro-cid-7xjzxsz4> <polyline points="6 9 12 15 18 9" data-astro-cid-7xjzxsz4></polyline> </svg> </label> <div class="menu-content" data-astro-cid-7xjzxsz4> <a href="/blog/how-to-simplify-content-creation-with-astro-layouts" data-astro-cid-7xjzxsz4>EN</a> </div>  </div>   <div class="social-links" data-astro-cid-3ef6ksr2> <a href="https://twitter.com/borjalofe" target="_blank" data-astro-cid-3ef6ksr2> <span class="sr-only" data-astro-cid-3ef6ksr2>Sígueme en Twitter</span> <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32" data-astro-cid-3ef6ksr2><path fill="currentColor" d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" data-astro-cid-3ef6ksr2></path></svg> </a> <a href="https://github.com/borjalofe" target="_blank" data-astro-cid-3ef6ksr2> <span class="sr-only" data-astro-cid-3ef6ksr2>Mi repo en GitHub</span> <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32" data-astro-cid-3ef6ksr2><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" data-astro-cid-3ef6ksr2></path></svg> </a> </div> </nav> </header>  <div class="skip-link-wrapper" data-astro-cid-hoe5mouk> <a href="#main" class="skip-link" tabindex="-1" data-astro-cid-hoe5mouk>Saltar al contenido</a> </div>   <main id="main">  <article><div class="hero-image"><img src="/blog-placeholder-2.jpg" alt="" loading="eager" width="720" height="360" decoding="async"></div><div class="prose"><div class="title"><div class="date"><time datetime="2024-10-07T09:00:00.000Z"> 07/10/2024 </time></div><h1>Cómo simplificar la creación de contenidos con layouts de Astro</h1><hr></div> <p>En “<a href="/es/blog/como-refactorizar-astro-para-mejorar-la-mantenibilidad-del-codigo">Cómo refatorizar Astro para mejorar la mantenibilidad del código</a>”, te contaba cómo simplificar el código para facilitar el mantenimiento. Pero podemos hacer más para facilitarnos la vida a la hora de crear contenidos.</p>
+<p>Por ejemplo, ahora mismo aún estamos obligados a tocar cierta cantidad de código para crear páginas, cuando lo ideal es poder centrarse solo en el contenido.</p>
+<p>¡Ojo! No digo que solo tenga que haber contenido puro en las páginas. Lo que digo es que no debería ser necesario tocar código para tener una nueva página.</p>
+<p>Por eso, en este artículo vamos a centrarnos en simplificar el código de las páginas hasta el punto que podamos crear una página únicamente con contenido MarkDown.</p>
+<h2 id="un-layout-para-dominarlos-a-todos">Un <code>layout</code> para dominarlos a todos</h2>
+<p>Cuando mencionaba <a href="/es/blog/como-refactorizar-astro-para-mejorar-la-mantenibilidad-del-codigo#1-tiene-c%C3%B3digo-duplicado">el código duplicado</a> en el artículo anterior, ponía como ejemplo la estructura base del HTML de la web:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Head </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Head.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Header </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Header.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Footer </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Footer.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;!</span><span style="color:#F8F8F2">doctype html</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">html lang</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">en</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;</span><span style="color:#F8F8F2">Head title</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{</span><span style="color:#FF79C6">...</span><span style="color:#F8F8F2">} description</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{</span><span style="color:#FF79C6">...</span><span style="color:#F8F8F2">}</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">        ...</span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">Head</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">    &#x3C;</span><span style="color:#8BE9FD;font-style:italic">body</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">Header </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#F8F8F2">        &#x3C;</span><span style="color:#8BE9FD;font-style:italic">main</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#FF79C6">            ...</span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;/</span><span style="color:#F8F8F2">main</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">Footer </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">body</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">html</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<p>Podemos extraerlo en un <code>layout</code> genérico para evitar duplicarlo cada vez que queramos crear una página, archivo o tipo de contenido nuevo.</p>
+<p>Para ello, necesitamos tener en cuenta algunas cosas:</p>
+<h3 id="1-las-partes-que-he-sustituido-por-puntos-suspensivos">1. las partes que he sustituido por puntos suspensivos (…),</h3>
+<p>tendrán que ser sustituidas por parámetros o <code>slots</code> de Astro.</p>
+<p>En este caso, los parámetros de <code>Head</code> los recogeremos como parámetros y los puntos suspensivos bajo el <code>Head</code> y dentro del <code>main</code> pasarán a ser <code>slots</code>. Además, como solo puede haber un <code>slot</code> anónimo, nombraremos el <code>slot</code> del <code>head</code> como tal.</p>
+<p>Tras los cambios, el código quedará así:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Head </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Head.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Header </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Header.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Footer </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Footer.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">type</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    description</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> string</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">    title</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> string</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { description, title } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;!</span><span style="color:#F8F8F2">doctype html</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">html lang</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">en</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;</span><span style="color:#F8F8F2">Head</span></span>
+<span class="line"><span style="color:#F8F8F2">        description</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{description}</span></span>
+<span class="line"><span style="color:#F8F8F2">        title</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{title}</span></span>
+<span class="line"><span style="color:#FF79C6">    ></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">slot name</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">head</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> /></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">Head</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">    &#x3C;</span><span style="color:#8BE9FD;font-style:italic">body</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">Header </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#F8F8F2">        &#x3C;</span><span style="color:#8BE9FD;font-style:italic">main</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#FF79C6">            &#x3C;</span><span style="color:#F8F8F2">slot </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;/</span><span style="color:#F8F8F2">main</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">Footer </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">body</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">html</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<p>Ahora, guarda el código en un nuevo archivo llamado <code>src/layouts/MainLayout.astro</code> y refactoriza:</p>
+<h4 id="1-srclayoutspagecontentastro-que-quedará-así">1. <code>src/layouts/PageContent.astro</code>, que quedará así:</h4>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#FF79C6"> type</span><span style="color:#F8F8F2"> { CollectionEntry } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">astro:content</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Date </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Date.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> MainLayout </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@layouts/MainLayout.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#FF79C6"> type</span><span style="color:#F8F8F2"> { Collection } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/collections.d</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">type</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#FF79C6"> =</span><span style="color:#8BE9FD;font-style:italic"> CollectionEntry</span><span style="color:#F8F8F2">&#x3C;</span><span style="color:#FFB86C;font-style:italic">Collection</span><span style="color:#F8F8F2">>[</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">data</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">];</span></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { title, description, pubDate, updatedDate, heroImage } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">MainLayout</span></span>
+<span class="line"><span style="color:#F8F8F2">    description</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{description}</span></span>
+<span class="line"><span style="color:#F8F8F2">    title</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{title}</span></span>
+<span class="line"><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;</span><span style="color:#F8F8F2">style slot</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">head</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">        ...</span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">style</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">    &#x3C;</span><span style="color:#8BE9FD;font-style:italic">article</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">div class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">hero-image</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">            {heroImage </span><span style="color:#FF79C6">&#x26;&#x26;</span><span style="color:#F8F8F2"> &#x3C;</span><span style="color:#8BE9FD;font-style:italic">img</span><span style="color:#8BE9FD;font-style:italic"> width</span><span style="color:#F8F8F2">={</span><span style="color:#BD93F9">1020</span><span style="color:#F8F8F2">} </span><span style="color:#8BE9FD;font-style:italic">height</span><span style="color:#F8F8F2">={</span><span style="color:#BD93F9">510</span><span style="color:#F8F8F2">} </span><span style="color:#8BE9FD;font-style:italic">src</span><span style="color:#F8F8F2">={heroImage} </span><span style="color:#8BE9FD;font-style:italic">alt</span><span style="color:#F8F8F2">=</span><span style="color:#E9F284">""</span><span style="color:#F8F8F2"> />}</span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;/</span><span style="color:#F8F8F2">div</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">div class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">prose</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">            &#x3C;</span><span style="color:#F8F8F2">div class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">title</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                &#x3C;</span><span style="color:#F8F8F2">div class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">date</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                    &#x3C;</span><span style="color:#F8F8F2">Date date</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{pubDate} </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#F8F8F2">                    {updatedDate </span><span style="color:#FF79C6">&#x26;&#x26;</span><span style="color:#F8F8F2"> (</span></span>
+<span class="line"><span style="color:#FF79C6">                        &#x3C;</span><span style="color:#F8F8F2">div class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">last-updated-on</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">                            Last updated on </span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">Date date</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{updatedDate} </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">                        &#x3C;/</span><span style="color:#F8F8F2">div</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">                    )}</span></span>
+<span class="line"><span style="color:#FF79C6">                &#x3C;/</span><span style="color:#F8F8F2">div</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">                &#x3C;</span><span style="color:#8BE9FD;font-style:italic">h1</span><span style="color:#F8F8F2">>{title}</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">h1</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                &#x3C;</span><span style="color:#F8F8F2">hr </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">            &#x3C;/</span><span style="color:#F8F8F2">div</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">            &#x3C;</span><span style="color:#F8F8F2">slot </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;/</span><span style="color:#F8F8F2">div</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">article</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">MainLayout</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<h4 id="2--srcpagesblogindexastro-que-quedará-así">2.  <code>src/pages/blog/index.astro</code>, que quedará así:</h4>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { getCollection } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">astro:content</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Date </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/components/Date.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { SITE_TITLE, SITE_DESCRIPTION } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/consts</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> MainLayout </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/layouts/MainLayout.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#FF79C6"> type</span><span style="color:#F8F8F2"> { Collection, Post } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/collections.d</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> collection</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> Collection</span><span style="color:#FF79C6"> =</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">blog</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> posts</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> Post</span><span style="color:#F8F8F2">[] </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> (</span><span style="color:#FF79C6">await</span><span style="color:#50FA7B"> getCollection</span><span style="color:#F8F8F2">(collection)).</span><span style="color:#50FA7B">sort</span><span style="color:#F8F8F2">(</span></span>
+<span class="line"><span style="color:#F8F8F2">    (</span><span style="color:#FFB86C;font-style:italic">a</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> Post</span><span style="color:#F8F8F2">, </span><span style="color:#FFB86C;font-style:italic">b</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> Post</span><span style="color:#F8F8F2">) </span><span style="color:#FF79C6">=></span><span style="color:#F8F8F2"> b.data.pubDate.</span><span style="color:#50FA7B">valueOf</span><span style="color:#F8F8F2">() </span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2"> a.data.pubDate.</span><span style="color:#50FA7B">valueOf</span><span style="color:#F8F8F2">());</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">MainLayout</span></span>
+<span class="line"><span style="color:#F8F8F2">    description</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{SITE_DESCRIPTION}</span></span>
+<span class="line"><span style="color:#F8F8F2">    title</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{SITE_TITLE}</span></span>
+<span class="line"><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;</span><span style="color:#F8F8F2">style slot</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">head</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">        ...</span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">style</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">    &#x3C;</span><span style="color:#8BE9FD;font-style:italic">section</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">        &#x3C;</span><span style="color:#8BE9FD;font-style:italic">ul</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">            {posts.</span><span style="color:#50FA7B">map</span><span style="color:#F8F8F2">((</span><span style="color:#FFB86C;font-style:italic">post</span><span style="color:#F8F8F2">) </span><span style="color:#FF79C6">=></span><span style="color:#F8F8F2"> (</span></span>
+<span class="line"><span style="color:#F8F8F2">                &#x3C;</span><span style="color:#8BE9FD;font-style:italic">li</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#FF79C6">                    &#x3C;</span><span style="color:#F8F8F2">a href</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{</span><span style="color:#F1FA8C">`/blog/</span><span style="color:#FF79C6">${</span><span style="color:#F8F8F2">post.slug</span><span style="color:#FF79C6">}</span><span style="color:#F1FA8C">/`</span><span style="color:#F8F8F2">}</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                        &#x3C;</span><span style="color:#F8F8F2">img width</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{</span><span style="color:#BD93F9">720</span><span style="color:#F8F8F2">} height</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{</span><span style="color:#BD93F9">360</span><span style="color:#F8F8F2">} src</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{post.data.heroImage} alt</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">""</span><span style="color:#FF79C6"> /></span></span>
+<span class="line"><span style="color:#FF79C6">                        &#x3C;</span><span style="color:#F8F8F2">h4 class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">title</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">{post.data.title}</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">h4</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                        &#x3C;</span><span style="color:#F8F8F2">p class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">date</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                            &#x3C;</span><span style="color:#F8F8F2">Date date</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{post.data.pubDate} </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">                        &#x3C;/</span><span style="color:#F8F8F2">p</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                    &#x3C;/</span><span style="color:#F8F8F2">a</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                &#x3C;/</span><span style="color:#F8F8F2">li</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">            ))}</span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;/</span><span style="color:#F8F8F2">ul</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">section</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">MainLayout</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<h4 id="3--srcpagesindexastro-que-quedará-así">3.  <code>src/pages/index.astro</code>, que quedará así:</h4>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6"> ---</span></span>
+<span class="line"><span style="color:#FF79C6"> import</span><span style="color:#F8F8F2"> { SITE_TITLE, SITE_DESCRIPTION } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/consts</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6"> import</span><span style="color:#F8F8F2"> MainLayout </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/layouts/MainLayout.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6"> ---</span></span>
+<span class="line"><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F8F8F2">MainLayout</span></span>
+<span class="line"><span style="color:#F8F8F2">     description</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{SITE_DESCRIPTION}</span></span>
+<span class="line"><span style="color:#F8F8F2">     title</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{SITE_TITLE}</span></span>
+<span class="line"><span style="color:#FF79C6"> ></span></span>
+<span class="line"><span style="color:#F8F8F2">     &#x3C;</span><span style="color:#8BE9FD;font-style:italic">h1</span><span style="color:#F8F8F2">>🧑‍🚀 Hello, Astronaut</span><span style="color:#FF79C6">!&#x3C;/</span><span style="color:#F8F8F2">h1</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">     &#x3C;</span><span style="color:#8BE9FD;font-style:italic">p</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">         Welcome to the non</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">official </span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">a href</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">https://astro.build/</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">Astro</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">a</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2"> blog starter template</span></span>
+<span class="line"><span style="color:#F8F8F2">         created by </span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">a href</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">https://github.com/borjalofe</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">Borja LoFe</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">a</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">. This template serves </span><span style="color:#FF79C6">as</span><span style="color:#8BE9FD;font-style:italic"> a</span><span style="color:#F8F8F2"> </span></span>
+<span class="line"><span style="color:#F8F8F2">         lightweight, minimally</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">styled starting point for anyone looking to build a personal website,</span></span>
+<span class="line"><span style="color:#F8F8F2">         blog, or portfolio </span><span style="color:#FF79C6">with</span><span style="color:#F8F8F2"> Astro.</span></span>
+<span class="line"><span style="color:#FF79C6">     &#x3C;/</span><span style="color:#F8F8F2">p</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">     &#x3C;</span><span style="color:#8BE9FD;font-style:italic">p</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">         This template comes </span><span style="color:#FF79C6">with</span><span style="color:#F8F8F2"> a few integrations already configured </span><span style="color:#FF79C6">in</span><span style="color:#F8F8F2"> your</span></span>
+<span class="line"><span style="color:#F8F8F2">         &#x3C;</span><span style="color:#8BE9FD;font-style:italic">code</span><span style="color:#F8F8F2">>astro.config.mjs</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">code</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2"> file. You can customize your setup </span><span style="color:#FF79C6">with</span></span>
+<span class="line"><span style="color:#FF79C6">         &#x3C;</span><span style="color:#F8F8F2">a href</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">https://astro.build/integrations</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">Astro Integrations</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">a</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2"> to add tools like Tailwind,</span></span>
+<span class="line"><span style="color:#F8F8F2">         React, or Vue to your project.</span></span>
+<span class="line"><span style="color:#FF79C6">     &#x3C;/</span><span style="color:#F8F8F2">p</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">     &#x3C;</span><span style="color:#8BE9FD;font-style:italic">p</span><span style="color:#F8F8F2">>Here are a few ideas on how to get started </span><span style="color:#FF79C6">with</span><span style="color:#F8F8F2"> the template:&#x3C;/</span><span style="color:#8BE9FD;font-style:italic">p</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">     &#x3C;</span><span style="color:#8BE9FD;font-style:italic">ul</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">         &#x3C;</span><span style="color:#8BE9FD;font-style:italic">li</span><span style="color:#F8F8F2">>Edit </span><span style="color:#BD93F9;font-style:italic">this</span><span style="color:#F8F8F2"> page </span><span style="color:#FF79C6">in</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F8F8F2">code</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">src</span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">pages</span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">index.astro</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">code</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">&#x3C;/</span><span style="color:#8BE9FD;font-style:italic">li</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">         &#x3C;</span><span style="color:#8BE9FD;font-style:italic">li</span><span style="color:#F8F8F2">>Edit the site header items </span><span style="color:#FF79C6">in</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F8F8F2">code</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">src</span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">components</span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">Header.astro</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">code</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">&#x3C;/</span><span style="color:#8BE9FD;font-style:italic">li</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">         &#x3C;</span><span style="color:#8BE9FD;font-style:italic">li</span><span style="color:#F8F8F2">>Add your name to the footer </span><span style="color:#FF79C6">in</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F8F8F2">code</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">src</span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">components</span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">Footer.astro</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">code</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">&#x3C;/</span><span style="color:#8BE9FD;font-style:italic">li</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">         &#x3C;</span><span style="color:#8BE9FD;font-style:italic">li</span><span style="color:#F8F8F2">>Check out the included blog posts </span><span style="color:#FF79C6">in</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F8F8F2">code</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">src</span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">content</span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">blog</span><span style="color:#FF79C6">/&#x3C;/</span><span style="color:#F8F8F2">code</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">&#x3C;/</span><span style="color:#8BE9FD;font-style:italic">li</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">         &#x3C;</span><span style="color:#8BE9FD;font-style:italic">li</span><span style="color:#F8F8F2">>Customize the blog post page layout </span><span style="color:#FF79C6">in</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F8F8F2">code</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">src</span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">layouts</span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">BlogPost.astro</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">code</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">&#x3C;/</span><span style="color:#8BE9FD;font-style:italic">li</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#FF79C6">     &#x3C;/</span><span style="color:#F8F8F2">ul</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">     &#x3C;</span><span style="color:#8BE9FD;font-style:italic">p</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">         Have fun</span><span style="color:#FF79C6">!</span><span style="color:#F8F8F2"> If you get stuck, remember to </span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">a href</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">https://docs.astro.build/</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">read the docs</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">a</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">         or </span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">a href</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">https://github.com/borjalofe/astro-blog-template/issues</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">create an issue</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">a</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2"> to</span></span>
+<span class="line"><span style="color:#F8F8F2">         ask questions.</span></span>
+<span class="line"><span style="color:#FF79C6">     &#x3C;/</span><span style="color:#F8F8F2">p</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">MainLayout</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<h3 id="2-la-etiqueta-main">2. la etiqueta <code>main</code></h3>
+<p>debe contener únicamente el contenido específico de la página (el contenido del artículo, por ejemplo), pero nosotros deberíamos poder poner contenido secundario antes y/o después de esa etiqueta. Podemos solucionarlo de 2 maneras:</p>
+<ol>
+<li>no ponemos <code>main</code> en este <code>layout</code> y recordamos ponerlo en cada nuevo <code>layout</code>, componente de página, … que creemos a partir de ahora,</li>
+<li>creamos <code>slots</code> nombrados para añadir contenido antes y después del <code>main</code></li>
+</ol>
+<p>Por comodidad, he elegido la segunda opción, por lo que he ido al archivo <code>src/layouts/MainLayout.astro</code> y he añadido los <code>slots</code> nombrados.</p>
+<p>Tras los cambios, el código queda tal que así:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Head </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Head.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Header </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Header.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Footer </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Footer.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">type</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    description</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> string</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">    title</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> string</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { description, title } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;!</span><span style="color:#F8F8F2">doctype html</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">html lang</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">en</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;</span><span style="color:#F8F8F2">Head</span></span>
+<span class="line"><span style="color:#F8F8F2">        description</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{description}</span></span>
+<span class="line"><span style="color:#F8F8F2">        title</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{title}</span></span>
+<span class="line"><span style="color:#FF79C6">    ></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">slot name</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">head</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> /></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">Head</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">    &#x3C;</span><span style="color:#8BE9FD;font-style:italic">body</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">Header </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">slot name</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">pre-content</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> /></span></span>
+<span class="line"><span style="color:#F8F8F2">        &#x3C;</span><span style="color:#8BE9FD;font-style:italic">main</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#FF79C6">            &#x3C;</span><span style="color:#F8F8F2">slot </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;/</span><span style="color:#F8F8F2">main</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">slot name</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">post-content</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> /></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">Footer </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">body</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">html</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<h2 id="escribir-sin-preocuparse-del-código">Escribir sin preocuparse del código</h2>
+<p>Ahora mismo, las páginas son archivos de Astro (<code>*.astro</code>) en los que siempre tendremos que recordar añadir el contenido dentro de la etiqueta <code>PageContent</code>.</p>
+<p>Además, si quisiéramos exportar el contenido, tendremos que eliminar el código de Astro para poder hacerlo.</p>
+<p>Entre el posible olvido y la necesidad de limpiar para exportar, ¿no sería mejor evitar el código (de Astro o del que sea) en las páginas con contenido?</p>
+<p>En mi caso, sí.</p>
+<p>Por otro lado, reducir los archivos de contenido a MarkDown no impide que luego usemos MDX (MarkDown + XML (e.g. JSX)) en un futuro.</p>
+<p>Sin embargo, este cambio implica que necesitamos gestionar cómo pasamos los parámetros necesarios a los archivos de Astro, especialmente cuando estamos usando TypeScript y eso nos exige un tipo para ello.</p>
+<h3 id="dentro-srctypescommonfrontmatterdts">Dentro <code>src/types/common.frontmatter.d.ts</code></h3>
+<p>Creamos el archivo <code>src/types/common.frontmatter.d.ts</code> con las propiedades de Frontmatter que pueden ser comunes a todos los archivos de contenido (de ahí el nombre “Common Frontmatter”):</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">export</span><span style="color:#FF79C6"> type</span><span style="color:#8BE9FD;font-style:italic"> CommonFrontmatter</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    title</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> string</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">    description</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> string</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">    heroImage</span><span style="color:#FF79C6">?:</span><span style="color:#8BE9FD;font-style:italic"> string</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"></span></code></pre>
+<p>Puedes ver que los datos que van a tener todos los contenidos en común son:</p>
+<ol>
+<li>tiltulo,</li>
+<li>descripción,</li>
+<li>imagen de portada (o imagen destacada en algunos sistemas), opcional</li>
+</ol>
+<h3 id="los-layouts-aceptarán-una-prop-con-el-frontmatter-que-acabamos-de-crear">Los <code>layouts</code> aceptarán una prop con el <code>frontmatter</code> que acabamos de crear</h3>
+<p>Bueno, en realidad, Astro ya gestiona que puedas acceder al frontmatter de un archivo MarkDown desde una propiedad frontmatter.</p>
+<p>Nosotros la vamos a aprovechar para poder pasar nuestro propio frontmatter.</p>
+<p>De hecho, puesto que en nuestro <code>src/layouts/MainLayout.astro</code> todas las propiedades de frontmatter se pasan al componente <code>src/components/Head.astro</code>, vamos a modificar éste, que pasará de:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#6272A4">// Import the global.css file here so that it is included on</span></span>
+<span class="line"><span style="color:#6272A4">// all pages through the use of the &#x3C;Head /> component.</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@styles/global.css</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">interface</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">   title</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> string</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">   description</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> string</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">   image</span><span style="color:#FF79C6">?:</span><span style="color:#8BE9FD;font-style:italic"> string</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> canonicalURL </span><span style="color:#FF79C6">=</span><span style="color:#FF79C6;font-weight:bold"> new</span><span style="color:#50FA7B"> URL</span><span style="color:#F8F8F2">(Astro.url.pathname, Astro.site);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { title, description, image </span><span style="color:#FF79C6">=</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">/blog-placeholder-1.jpg</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2"> } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">...</span></span>
+<span class="line"></span></code></pre>
+<p>a:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#6272A4">// Import the global.css file here so that it is included on</span></span>
+<span class="line"><span style="color:#6272A4">// all pages through the use of the &#x3C;Head /> component.</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@styles/global.css</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { </span><span style="color:#FF79C6">type</span><span style="color:#F8F8F2"> CommonFrontmatter } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/common.frontmatter</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">type</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    frontmatter</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> CommonFrontmatter</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">}  </span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    frontmatter</span><span style="color:#FF79C6">:</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">        description,</span></span>
+<span class="line"><span style="color:#F8F8F2">        title,</span></span>
+<span class="line"><span style="color:#F8F8F2">        heroImage,</span></span>
+<span class="line"><span style="color:#F8F8F2">    }</span></span>
+<span class="line"><span style="color:#F8F8F2">} </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> image </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> heroImage </span><span style="color:#FF79C6">??</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">/blog-placeholder-1.jpg</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> canonicalURL </span><span style="color:#FF79C6">=</span><span style="color:#FF79C6;font-weight:bold"> new</span><span style="color:#50FA7B"> URL</span><span style="color:#F8F8F2">(Astro.url.pathname, Astro.site);</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">...</span></span>
+<span class="line"></span></code></pre>
+<p>Esto implica cambiar <code>src/layouts/MainLayout.astro</code> de:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Head </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Head.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Header </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Header.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Footer </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Footer.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">type</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    description</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> string</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">    title</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> string</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { description, title } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;!</span><span style="color:#F8F8F2">doctype html</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">html lang</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">en</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;</span><span style="color:#F8F8F2">Head</span></span>
+<span class="line"><span style="color:#F8F8F2">        description</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{description}</span></span>
+<span class="line"><span style="color:#F8F8F2">        title</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{title}</span></span>
+<span class="line"><span style="color:#FF79C6">    ></span></span>
+<span class="line"><span style="color:#FF79C6">    ...</span></span>
+<span class="line"></span></code></pre>
+<p>a:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Head </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Head.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Header </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Header.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Footer </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Footer.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { </span><span style="color:#FF79C6">type</span><span style="color:#F8F8F2"> CommonFrontmatter } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/common.frontmatter</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">type</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    frontmatter</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> CommonFrontmatter</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { frontmatter } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;!</span><span style="color:#F8F8F2">doctype html</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">html lang</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">en</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;</span><span style="color:#F8F8F2">Head</span></span>
+<span class="line"><span style="color:#F8F8F2">        frontmatter</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{frontmatter}</span></span>
+<span class="line"><span style="color:#FF79C6">    ></span></span>
+<span class="line"><span style="color:#FF79C6">    ...</span></span>
+<span class="line"></span></code></pre>
+<p>También necesitaremos cambiar <code>src/layouts/PageContent.astro</code> de:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">...</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#FF79C6"> type</span><span style="color:#F8F8F2"> { Collection } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/collections.d</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">type</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#FF79C6"> =</span><span style="color:#8BE9FD;font-style:italic"> CollectionEntry</span><span style="color:#F8F8F2">&#x3C;</span><span style="color:#FFB86C;font-style:italic">Collection</span><span style="color:#F8F8F2">>[</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">data</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { title, description, pubDate, updatedDate, heroImage } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">MainLayout</span></span>
+<span class="line"><span style="color:#F8F8F2">    description</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{description}</span></span>
+<span class="line"><span style="color:#F8F8F2">    title</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{title}</span></span>
+<span class="line"><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    ...</span></span>
+<span class="line"></span></code></pre>
+<p>a:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">...</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#FF79C6"> type</span><span style="color:#F8F8F2"> { Collection } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/collections.d</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { </span><span style="color:#FF79C6">type</span><span style="color:#F8F8F2"> CommonFrontmatter } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/common.frontmatter</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">type</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#FF79C6"> =</span><span style="color:#8BE9FD;font-style:italic"> CollectionEntry</span><span style="color:#F8F8F2">&#x3C;</span><span style="color:#FFB86C;font-style:italic">Collection</span><span style="color:#F8F8F2">>[</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">data</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { title, description, pubDate, updatedDate, heroImage } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;  </span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> frontmatter</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> CommonFrontmatter</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    title,</span></span>
+<span class="line"><span style="color:#F8F8F2">    description,</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">MainLayout</span></span>
+<span class="line"><span style="color:#F8F8F2">    frontmatter</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{frontmatter}</span></span>
+<span class="line"><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    ...</span></span>
+<span class="line"></span></code></pre>
+<p>Finalmente, tendremos que cambiar el archivo <code>src/pages/about.astro</code>, que usa el anterior layout, de:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> PageContent </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/layouts/PageContent.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">PageContent</span></span>
+<span class="line"><span style="color:#F8F8F2">    title</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">About Me</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#F8F8F2">    description</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">Lorem ipsum dolor sit amet</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#F8F8F2">    pubDate</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{new </span><span style="color:#50FA7B">Date</span><span style="color:#F8F8F2">(</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">August 08 2021</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">)}</span></span>
+<span class="line"><span style="color:#F8F8F2">    heroImage</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">/blog-placeholder-about.jpg</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<p>a:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#FF79C6"> type</span><span style="color:#F8F8F2"> { CollectionEntry } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">astro:content</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> PageContent </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/layouts/PageContent.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#FF79C6"> type</span><span style="color:#F8F8F2"> { Collection } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/collections.d</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> props</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> CollectionEntry</span><span style="color:#F8F8F2">&#x3C;</span><span style="color:#FFB86C;font-style:italic">Collection</span><span style="color:#F8F8F2">>[</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">data</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">] </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    title</span><span style="color:#FF79C6">:</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">About Me</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">    description</span><span style="color:#FF79C6">:</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">Lorem ipsum dolor sit amet</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">    heroImage</span><span style="color:#FF79C6">:</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">/blog-placeholder-about.jpg</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">    pubDate</span><span style="color:#FF79C6">:</span><span style="color:#FF79C6;font-weight:bold"> new</span><span style="color:#50FA7B"> Date</span><span style="color:#F8F8F2">(</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">August 08 2021</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">),</span></span>
+<span class="line"><span style="color:#F8F8F2">};</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">PageContent</span></span>
+<span class="line"><span style="color:#F8F8F2">    {</span><span style="color:#FF79C6">...</span><span style="color:#F8F8F2">props}</span></span>
+<span class="line"><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<h3 id="una-pequeña-reflexión">Una pequeña reflexión</h3>
+<p>Estamos usando una plantilla que está creada para contenido de colecciones (en este caso, el blog) para una página (que no pertenece a ninguna colección). De hecho, ¿necesitamos la fecha de publicación de la página? ¿Importa cuándo se publicó una página “de Inicio”, “Sobre mí”, “de Contacto”…</p>
+<p>Porque sí es importante saber cuándo se publicó/actualizó la información de un artículo pero ¿de una página?</p>
+<p>Por eso, vamos a dividir <code>src/layouts/PageContent.astro</code> en dos layouts:</p>
+<ul>
+<li><code>src/layouts/PageLayout.astro</code> gestionará las páginas (es decir, los archivos que estén en <code>src/pages</code>),</li>
+<li><code>src/layouts/PostLayout.astro</code> gestionará los artículos de las colecciones (es decir, los archivos que estén en <code>src/content</code>),</li>
+</ul>
+<p>Las únicas diferencias ahora mismo son:</p>
+<ul>
+<li>el contenido que gestione <code>src/layouts/PostLayout.astro</code> se renderizará dentro de la etiqueta <code>article</code>,</li>
+<li><code>src/layouts/PostLayout.astro</code> mostrará fecha de publicación y actualización,</li>
+<li><code>src/layouts/PageLayout.astro</code> no mostrará el título de la página configurado en el <code>frontmatter</code>,</li>
+<li><code>src/layout/PageLayout.astro</code> tendrá una única prop llamada <code>frontmatter</code> del tipo <code>CommonFrontmatter</code> mientras que <code>src/layout/PostLayout.astro</code> se quedará con las props actuales del tipo <code>CollectionEntry&#x3C;Collection>['data]</code>,</li>
+</ul>
+<p>Además, esto quiere decir que ya no habrá archivos que usen <code>src/layouts/MainLayout.astro</code> como layout, por lo que lo moveremos a la carpeta <code>src/components</code> y, al no ser ya un layout, lo renombraremos como <code>HTML.astro</code>.</p>
+<p>Tras los cambios, <code>src/layouts/PostLayout.astro</code> quedará así:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#FF79C6"> type</span><span style="color:#F8F8F2"> { CollectionEntry } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">astro:content</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Date </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Date.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> HTML </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/HTML.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#FF79C6"> type</span><span style="color:#F8F8F2"> { Collection } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/collections.d</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { </span><span style="color:#FF79C6">type</span><span style="color:#F8F8F2"> CommonFrontmatter } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/common.frontmatter</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">type</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#FF79C6"> =</span><span style="color:#8BE9FD;font-style:italic"> CollectionEntry</span><span style="color:#F8F8F2">&#x3C;</span><span style="color:#FFB86C;font-style:italic">Collection</span><span style="color:#F8F8F2">>[</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">data</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { title, description, pubDate, updatedDate, heroImage } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> frontmatter</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> CommonFrontmatter</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">	title,</span></span>
+<span class="line"><span style="color:#F8F8F2">	description,</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">HTML</span></span>
+<span class="line"><span style="color:#F8F8F2">    frontmatter</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{frontmatter}</span></span>
+<span class="line"><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;</span><span style="color:#F8F8F2">article class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">prose</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">div class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">hero-image</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">            {heroImage </span><span style="color:#FF79C6">&#x26;&#x26;</span><span style="color:#F8F8F2"> &#x3C;</span><span style="color:#8BE9FD;font-style:italic">img</span><span style="color:#8BE9FD;font-style:italic"> width</span><span style="color:#F8F8F2">={</span><span style="color:#BD93F9">1020</span><span style="color:#F8F8F2">} </span><span style="color:#8BE9FD;font-style:italic">height</span><span style="color:#F8F8F2">={</span><span style="color:#BD93F9">510</span><span style="color:#F8F8F2">} </span><span style="color:#8BE9FD;font-style:italic">src</span><span style="color:#F8F8F2">={heroImage} </span><span style="color:#8BE9FD;font-style:italic">alt</span><span style="color:#F8F8F2">=</span><span style="color:#E9F284">""</span><span style="color:#F8F8F2"> />}</span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;/</span><span style="color:#F8F8F2">div</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">div class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">title</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">            &#x3C;</span><span style="color:#F8F8F2">div class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">date</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                &#x3C;</span><span style="color:#F8F8F2">Date date</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{pubDate} </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#F8F8F2">                {updatedDate </span><span style="color:#FF79C6">&#x26;&#x26;</span><span style="color:#F8F8F2"> (</span></span>
+<span class="line"><span style="color:#FF79C6">                    &#x3C;</span><span style="color:#F8F8F2">div class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">last-updated-on</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">                        Last updated on </span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">Date date</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{updatedDate} </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">                    &#x3C;/</span><span style="color:#F8F8F2">div</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">                )}</span></span>
+<span class="line"><span style="color:#FF79C6">            &#x3C;/</span><span style="color:#F8F8F2">div</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">            &#x3C;</span><span style="color:#8BE9FD;font-style:italic">h1</span><span style="color:#F8F8F2">>{title}</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">h1</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">            &#x3C;</span><span style="color:#F8F8F2">hr </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;/</span><span style="color:#F8F8F2">div</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">slot </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">article</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">    &#x3C;</span><span style="color:#8BE9FD;font-style:italic">style</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">        .hero</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">image {</span></span>
+<span class="line"><span style="color:#F8F8F2">            width: </span><span style="color:#BD93F9">100</span><span style="color:#FF79C6">%</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        .hero</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">image img {</span></span>
+<span class="line"><span style="color:#F8F8F2">            display: block;</span></span>
+<span class="line"><span style="color:#F8F8F2">            margin: </span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2"> auto;</span></span>
+<span class="line"><span style="color:#F8F8F2">            border</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">radius: 12px;</span></span>
+<span class="line"><span style="color:#F8F8F2">            box</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">shadow: </span><span style="color:#FF79C6">var</span><span style="color:#F8F8F2">(--box-shadow);</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        .prose {</span></span>
+<span class="line"><span style="color:#F8F8F2">            width: 720px;</span></span>
+<span class="line"><span style="color:#F8F8F2">            max</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">width: </span><span style="color:#50FA7B">calc</span><span style="color:#F8F8F2">(</span><span style="color:#BD93F9">100</span><span style="color:#FF79C6">%</span><span style="color:#FF79C6"> -</span><span style="color:#F8F8F2"> 2em);</span></span>
+<span class="line"><span style="color:#F8F8F2">            margin: auto;</span></span>
+<span class="line"><span style="color:#F8F8F2">            padding: 1em;</span></span>
+<span class="line"><span style="color:#F8F8F2">            color: </span><span style="color:#50FA7B">rgb</span><span style="color:#F8F8F2">(</span><span style="color:#50FA7B">var</span><span style="color:#F8F8F2">(</span><span style="color:#FF79C6">--</span><span style="color:#F8F8F2">gray</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">dark));</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        .title {</span></span>
+<span class="line"><span style="color:#F8F8F2">            margin</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">bottom: 1em;</span></span>
+<span class="line"><span style="color:#F8F8F2">            padding: 1em </span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">            text</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">align: center;</span></span>
+<span class="line"><span style="color:#F8F8F2">            line</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">height: </span><span style="color:#BD93F9">1</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        .title h1 {</span></span>
+<span class="line"><span style="color:#F8F8F2">            margin: </span><span style="color:#BD93F9">0</span><span style="color:#BD93F9"> 0</span><span style="color:#F8F8F2"> 0.5em </span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        .date {</span></span>
+<span class="line"><span style="color:#F8F8F2">            margin</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">bottom: 0.5em;</span></span>
+<span class="line"><span style="color:#F8F8F2">            color: </span><span style="color:#50FA7B">rgb</span><span style="color:#F8F8F2">(</span><span style="color:#50FA7B">var</span><span style="color:#F8F8F2">(</span><span style="color:#FF79C6">--</span><span style="color:#F8F8F2">gray));</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        .last</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">updated</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">on {</span></span>
+<span class="line"><span style="color:#F8F8F2">            font</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">style: italic;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">style</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">HTML</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<p>Y <code>src/layouts/PageLayout.astro</code> así:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> HTML </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/HTML.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { </span><span style="color:#FF79C6">type</span><span style="color:#F8F8F2"> CommonFrontmatter } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/common.frontmatter</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">type</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    frontmatter</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> CommonFrontmatter</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { frontmatter } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;</span></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { heroImage } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> frontmatter;</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">HTML</span></span>
+<span class="line"><span style="color:#F8F8F2">    frontmatter</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{frontmatter}</span></span>
+<span class="line"><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;</span><span style="color:#F8F8F2">div class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">prose</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">div class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">hero-image</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">            {heroImage </span><span style="color:#FF79C6">&#x26;&#x26;</span><span style="color:#F8F8F2"> &#x3C;</span><span style="color:#8BE9FD;font-style:italic">img</span><span style="color:#8BE9FD;font-style:italic"> width</span><span style="color:#F8F8F2">={</span><span style="color:#BD93F9">1020</span><span style="color:#F8F8F2">} </span><span style="color:#8BE9FD;font-style:italic">height</span><span style="color:#F8F8F2">={</span><span style="color:#BD93F9">510</span><span style="color:#F8F8F2">} </span><span style="color:#8BE9FD;font-style:italic">src</span><span style="color:#F8F8F2">={heroImage} </span><span style="color:#8BE9FD;font-style:italic">alt</span><span style="color:#F8F8F2">=</span><span style="color:#E9F284">""</span><span style="color:#F8F8F2"> />}</span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;/</span><span style="color:#F8F8F2">div</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;</span><span style="color:#F8F8F2">slot </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">div</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">    &#x3C;</span><span style="color:#8BE9FD;font-style:italic">style</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">        .hero</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">image {</span></span>
+<span class="line"><span style="color:#F8F8F2">            width: </span><span style="color:#BD93F9">100</span><span style="color:#FF79C6">%</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        .hero</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">image img {</span></span>
+<span class="line"><span style="color:#F8F8F2">            display: block;</span></span>
+<span class="line"><span style="color:#F8F8F2">            margin: </span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2"> auto;</span></span>
+<span class="line"><span style="color:#F8F8F2">            border</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">radius: 12px;</span></span>
+<span class="line"><span style="color:#F8F8F2">            box</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">shadow: </span><span style="color:#FF79C6">var</span><span style="color:#F8F8F2">(--box-shadow);</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        .prose {</span></span>
+<span class="line"><span style="color:#F8F8F2">            width: 720px;</span></span>
+<span class="line"><span style="color:#F8F8F2">            max</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">width: </span><span style="color:#50FA7B">calc</span><span style="color:#F8F8F2">(</span><span style="color:#BD93F9">100</span><span style="color:#FF79C6">%</span><span style="color:#FF79C6"> -</span><span style="color:#F8F8F2"> 2em);</span></span>
+<span class="line"><span style="color:#F8F8F2">            margin: auto;</span></span>
+<span class="line"><span style="color:#F8F8F2">            padding: 1em;</span></span>
+<span class="line"><span style="color:#F8F8F2">            color: </span><span style="color:#50FA7B">rgb</span><span style="color:#F8F8F2">(</span><span style="color:#50FA7B">var</span><span style="color:#F8F8F2">(</span><span style="color:#FF79C6">--</span><span style="color:#F8F8F2">gray</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">dark));</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">style</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">HTML</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<h3 id="quitar-el-código-de-las-páginas-y-artículos">Quitar el código de las páginas y artículos</h3>
+<p>Con los cambios que hemos hecho, podemos hacer que todas las páginas se conviertan en archivos de MarkDown o MDX. El caso más sencillo es la página <code>src/pages/about.astro</code>. Si le cambiamos la extensión a <code>.md</code> y eliminamos el código, se quedará así:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#F8F8F2">---</span></span>
+<span class="line"><span style="color:#8BE9FD">title</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> About Me</span></span>
+<span class="line"><span style="color:#8BE9FD">description</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> Lorem ipsum dolor sit amet</span></span>
+<span class="line"><span style="color:#8BE9FD">heroImage</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> /blog-placeholder-about.jpg</span></span>
+<span class="line"><span style="color:#F8F8F2">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">Lorem ipsum...</span></span>
+<span class="line"></span></code></pre>
+<p>Por supuesto, esto no aplica ningún layout pero, por fortuna, Astro nos tiene cubiertos en eso: basta con añadir el atributo <code>layout</code> al frontmatter con el layout que queramos aplicar y eso será suficiente para corregirlo.</p>
+<p>Tras este cambio, el archivo te quedará así:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#F8F8F2">---</span></span>
+<span class="line"><span style="color:#8BE9FD">title</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> About Me</span></span>
+<span class="line"><span style="color:#8BE9FD">description</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> Lorem ipsum dolor sit amet</span></span>
+<span class="line"><span style="color:#8BE9FD">layout</span><span style="color:#FF79C6">:</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@layouts/PageLayout.astro</span><span style="color:#E9F284">'</span></span>
+<span class="line"><span style="color:#8BE9FD">heroImage</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> /blog-placeholder-about.jpg</span></span>
+<span class="line"><span style="color:#F8F8F2">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">Lorem ipsum...</span></span>
+<span class="line"></span></code></pre>
+<p>Y se verá como debe.</p>
+<h3 id="la-página-de-inicio-es-un-caso-especial">La página de inicio es un caso especial</h3>
+<p>En general, en la página de inicio queremos que el título y la descripción que aparezcan en las meta etiquetas y etiquetas del <code>head</code> sean los de la web en sí.</p>
+<p>Podríamos añadir código a <code>src/layouts/PageLayout.astro</code> para gestionar este caso, pero es más sencillo crear un nuevo layout y gestionarlo:</p>
+<ol>
+<li>crea <code>src/layouts/HomepageLayout.astro</code>,</li>
+<li>añade el siguiente código en el archivo:
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { SITE_TITLE, SITE_DESCRIPTION } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/consts</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> PageLayout </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@layouts/PageLayout.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { </span><span style="color:#FF79C6">type</span><span style="color:#F8F8F2"> CommonFrontmatter } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/common.frontmatter</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">type</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    frontmatter</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> CommonFrontmatter</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { frontmatter } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> homeFrontmatter</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> CommonFrontmatter</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#FF79C6">    ...</span><span style="color:#F8F8F2">frontmatter,</span></span>
+<span class="line"><span style="color:#F8F8F2">    title</span><span style="color:#FF79C6">:</span><span style="color:#F8F8F2"> SITE_TITLE,</span></span>
+<span class="line"><span style="color:#F8F8F2">    description</span><span style="color:#FF79C6">:</span><span style="color:#F8F8F2"> SITE_DESCRIPTION,</span></span>
+<span class="line"><span style="color:#F8F8F2">};</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">PageLayout</span></span>
+<span class="line"><span style="color:#F8F8F2">    frontmatter</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{homeFrontmatter}</span></span>
+<span class="line"><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;</span><span style="color:#F8F8F2">slot </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">PageLayout</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<ol start="3">
+<li>refactoriza <code>src/pages/index.astro</code> como <code>src/pages/index.md</code> y, tras quitar el código, te quedará como sigue:</li>
+</ol>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#F8F8F2">---</span></span>
+<span class="line"><span style="color:#8BE9FD">title</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> Home</span></span>
+<span class="line"><span style="color:#8BE9FD">description</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> This is the homepage</span></span>
+<span class="line"><span style="color:#8BE9FD">layout</span><span style="color:#FF79C6">:</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@layouts/HomepageLayout.astro</span><span style="color:#E9F284">'</span></span>
+<span class="line"><span style="color:#F8F8F2">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9;font-weight:bold"># 🧑‍🚀 Hello, Astronaut!</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">Welcome to the non-official [</span><span style="color:#FF79C6">Astro</span><span style="color:#F8F8F2">](</span><span style="color:#8BE9FD;text-decoration:underline">https://astro.build/</span><span style="color:#F8F8F2">) blog starter templatecreated by [</span><span style="color:#FF79C6">Borja LoFe</span><span style="color:#F8F8F2">](</span><span style="color:#8BE9FD;text-decoration:underline">https://github.com/borjalofe</span><span style="color:#F8F8F2">). This template serves as a lightweight, minimally-styled starting point for anyone looking to build a personal website,blog, or portfolio with Astro.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">This template comes with a few integrations already configured in your</span><span style="color:#50FA7B">`astro.config.mjs`</span><span style="color:#F8F8F2"> file. You can customize your setup with [</span><span style="color:#FF79C6">Astro Integrations</span><span style="color:#F8F8F2">](</span><span style="color:#8BE9FD;text-decoration:underline">https://astro.build/integrations</span><span style="color:#F8F8F2">) to add tools like Tailwind,React, or Vue to your project.</span></span>
+<span class="line"><span style="color:#F8F8F2">		</span></span>
+<span class="line"><span style="color:#F8F8F2">Here are a few ideas on how to get started with the template:</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">- Edit this page in </span><span style="color:#50FA7B">`src/pages/index.astro`</span></span>
+<span class="line"><span style="color:#F8F8F2">- Edit the site header items in </span><span style="color:#50FA7B">`src/components/Header.astro`</span></span>
+<span class="line"><span style="color:#F8F8F2">- Add your name to the footer in </span><span style="color:#50FA7B">`src/components/Footer.astro`</span></span>
+<span class="line"><span style="color:#F8F8F2">- Check out the included blog posts in </span><span style="color:#50FA7B">`src/content/blog/`</span></span>
+<span class="line"><span style="color:#F8F8F2">- Customize the blog post page layout in </span><span style="color:#50FA7B">`src/layouts/BlogPost.astro`</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">Have fun! If you get stuck, remember to [</span><span style="color:#FF79C6">read the docs</span><span style="color:#F8F8F2">](</span><span style="color:#8BE9FD;text-decoration:underline">https://docs.astro.build/</span><span style="color:#F8F8F2">) or [</span><span style="color:#FF79C6">create an issue</span><span style="color:#F8F8F2">](</span><span style="color:#8BE9FD;text-decoration:underline">https://github.com/borjalofe/astro-blog-template/issues</span><span style="color:#F8F8F2">) toask questions.</span></span>
+<span class="line"></span></code></pre>
+</li>
+</ol>
+<h3 id="el-caso-no-tan-especial-de-la-página-de-blog">El caso no tan especial de la página de blog</h3>
+<p>La página de blog no deja de ser una página de archivo para la colección <code>blog</code>… y podemos tener muchas otras colecciones cada una con su propio archivo.</p>
+<p>Por eso, vamos a crear un nuevo tipo y layout para gestionar los archivos.</p>
+<p>Necesitaremos el tipo para poder definir qué colección se renderizará en el archivo</p>
+<h4 id="frontmatter-para-archivo">Frontmatter para Archivo</h4>
+<p>Puesto que queremos poder definir las páginas con MarkDown básico (sin desdeñar MDX), toda la configuración del archivo debe poder pasarse como propiedades de frontmatter.</p>
+<p>Para eso, vamos a crear el archivo <code>src/types/archive.frontmatter.ts</code> y vamos a añadir el siguiente código en él:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">import</span><span style="color:#FF79C6"> type</span><span style="color:#F8F8F2"> { Collection } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/collections.d</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#FF79C6"> type</span><span style="color:#F8F8F2"> { CommonFrontmatter } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">@/types/common.frontmatter</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">export</span><span style="color:#FF79C6"> type</span><span style="color:#8BE9FD;font-style:italic"> ArchiveFrontmatter</span><span style="color:#FF79C6"> =</span><span style="color:#8BE9FD;font-style:italic"> CommonFrontmatter</span><span style="color:#FF79C6"> &#x26;</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    collection</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> Collection</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span>
+<span class="line"></span></code></pre>
+<blockquote>
+<p><strong>Nota</strong>:</p>
+<p>A diferencia de las interfaces (que solo permiten extender de ellas), los tipos permiten aplicar operaciones de grupo sobre ellos para crear nuevos tipos.</p>
+<p>Por eso, si ves la definición de <code>Collection</code>, ahora mismo aparece solo “blog”, pero podemos añadir nuevas colecciones con el operador <code>o</code> (que se representa con la barra vertical <code>|</code>) de manera que fijamos las opciones a elegir para una colección.</p>
+<p>En el caso del tipo <code>ArchiveFrontmatter</code> estamos usando el operador <code>y</code> generando una unión de tipos. Es decir, <code>ArchiveFrontmmater</code> tiene lo mismo que <code>CommonFrontmatter</code> y, además, la propiedad <code>collection</code>.</p>
+<p>De esta forma, podemos generar tipos nuevos con facilidad.</p>
+</blockquote>
+<h4 id="layout-para-archivo">Layout para Archivo</h4>
+<p>Vamos a crear el layout para archivo (en el archivo <code>src/layouts/ArchiveLayout.astro</code>) siguiendo la misma lógica que para crear el de la página de inicio: importando el layout de páginas y añadiendo lo que es específico del archivo.</p>
+<p>Por eso, creamos el archivo <code>src/layout/ArchiveLayout.astro</code> y escribimos el siguiente código en él:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { getCollection } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">astro:content</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> Date </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@components/Date.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { SITE_TITLE, SITE_DESCRIPTION } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/consts</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> PageLayout </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@layouts/PageLayout.astro</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#FF79C6"> type</span><span style="color:#F8F8F2"> { Post } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/collections.d</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { </span><span style="color:#FF79C6">type</span><span style="color:#F8F8F2"> ArchiveFrontmatter } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/archive.frontmatter</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> { </span><span style="color:#FF79C6">type</span><span style="color:#F8F8F2"> CommonFrontmatter } </span><span style="color:#FF79C6">from</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@/types/common.frontmatter</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">type</span><span style="color:#8BE9FD;font-style:italic"> Props</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">    frontmatter</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> ArchiveFrontmatter</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { frontmatter } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> Astro.props;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> homeFrontmatter</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> CommonFrontmatter</span><span style="color:#FF79C6"> =</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#FF79C6">    ...</span><span style="color:#F8F8F2">frontmatter,</span></span>
+<span class="line"><span style="color:#F8F8F2">    title</span><span style="color:#FF79C6">:</span><span style="color:#F8F8F2"> SITE_TITLE,</span></span>
+<span class="line"><span style="color:#F8F8F2">    description</span><span style="color:#FF79C6">:</span><span style="color:#F8F8F2"> SITE_DESCRIPTION,</span></span>
+<span class="line"><span style="color:#F8F8F2">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> { collection } </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> frontmatter;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">const</span><span style="color:#F8F8F2"> posts</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> Post</span><span style="color:#F8F8F2">[] </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> (</span><span style="color:#FF79C6">await</span><span style="color:#50FA7B"> getCollection</span><span style="color:#F8F8F2">(collection)).</span><span style="color:#50FA7B">sort</span><span style="color:#F8F8F2">(</span></span>
+<span class="line"><span style="color:#F8F8F2">    (</span><span style="color:#FFB86C;font-style:italic">a</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> Post</span><span style="color:#F8F8F2">, </span><span style="color:#FFB86C;font-style:italic">b</span><span style="color:#FF79C6">:</span><span style="color:#8BE9FD;font-style:italic"> Post</span><span style="color:#F8F8F2">) </span><span style="color:#FF79C6">=></span><span style="color:#F8F8F2"> b.data.pubDate.</span><span style="color:#50FA7B">valueOf</span><span style="color:#F8F8F2">() </span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2"> a.data.pubDate.</span><span style="color:#50FA7B">valueOf</span><span style="color:#F8F8F2">());</span></span>
+<span class="line"><span style="color:#FF79C6">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;</span><span style="color:#F8F8F2">PageLayout</span></span>
+<span class="line"><span style="color:#F8F8F2">    frontmatter</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{homeFrontmatter}</span></span>
+<span class="line"><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">    &#x3C;</span><span style="color:#8BE9FD;font-style:italic">section</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">        &#x3C;</span><span style="color:#8BE9FD;font-style:italic">ul</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">            {</span></span>
+<span class="line"><span style="color:#F8F8F2">                posts.</span><span style="color:#50FA7B">map</span><span style="color:#F8F8F2">((</span><span style="color:#FFB86C;font-style:italic">post</span><span style="color:#F8F8F2">) </span><span style="color:#FF79C6">=></span><span style="color:#F8F8F2"> (</span></span>
+<span class="line"><span style="color:#F8F8F2">                    &#x3C;</span><span style="color:#8BE9FD;font-style:italic">li</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#FF79C6">                        &#x3C;</span><span style="color:#F8F8F2">a href</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{</span><span style="color:#F1FA8C">`/blog/</span><span style="color:#FF79C6">${</span><span style="color:#F8F8F2">post.slug</span><span style="color:#FF79C6">}</span><span style="color:#F1FA8C">/`</span><span style="color:#F8F8F2">}</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                            &#x3C;</span><span style="color:#F8F8F2">img width</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{</span><span style="color:#BD93F9">720</span><span style="color:#F8F8F2">} height</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{</span><span style="color:#BD93F9">360</span><span style="color:#F8F8F2">} src</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{post.data.heroImage} alt</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">""</span><span style="color:#FF79C6"> /></span></span>
+<span class="line"><span style="color:#FF79C6">                            &#x3C;</span><span style="color:#F8F8F2">h4 class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">title</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2">{post.data.title}</span><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">h4</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                            &#x3C;</span><span style="color:#F8F8F2">p class</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">date</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                                &#x3C;</span><span style="color:#F8F8F2">Date date</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">{post.data.pubDate} </span><span style="color:#FF79C6">/></span></span>
+<span class="line"><span style="color:#FF79C6">                            &#x3C;/</span><span style="color:#F8F8F2">p</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                        &#x3C;/</span><span style="color:#F8F8F2">a</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">                    &#x3C;/</span><span style="color:#F8F8F2">li</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">                ))</span></span>
+<span class="line"><span style="color:#F8F8F2">            }</span></span>
+<span class="line"><span style="color:#FF79C6">        &#x3C;/</span><span style="color:#F8F8F2">ul</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">section</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#F8F8F2">    &#x3C;</span><span style="color:#8BE9FD;font-style:italic">style</span><span style="color:#F8F8F2">></span></span>
+<span class="line"><span style="color:#F8F8F2">        ul {</span></span>
+<span class="line"><span style="color:#F8F8F2">            display: flex;</span></span>
+<span class="line"><span style="color:#F8F8F2">            flex</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">wrap: wrap;</span></span>
+<span class="line"><span style="color:#F8F8F2">            gap: 2rem;</span></span>
+<span class="line"><span style="color:#F8F8F2">            list</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">style</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">type: none;</span></span>
+<span class="line"><span style="color:#F8F8F2">            margin: </span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">            padding: </span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        ul li {</span></span>
+<span class="line"><span style="color:#F8F8F2">            width: </span><span style="color:#50FA7B">calc</span><span style="color:#F8F8F2">(</span><span style="color:#BD93F9">50</span><span style="color:#FF79C6">%</span><span style="color:#FF79C6"> -</span><span style="color:#F8F8F2"> 1rem);</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        ul li </span><span style="color:#FF79C6">*</span><span style="color:#F8F8F2"> {</span></span>
+<span class="line"><span style="color:#F8F8F2">            text-decoration</span><span style="color:#FF79C6">:</span><span style="color:#F8F8F2"> none;</span></span>
+<span class="line"><span style="color:#F8F8F2">            transition: 0.2s ease;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        ul li:first</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">child {</span></span>
+<span class="line"><span style="color:#F8F8F2">            width: </span><span style="color:#BD93F9">100</span><span style="color:#FF79C6">%</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">            margin</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">bottom: 1rem;</span></span>
+<span class="line"><span style="color:#F8F8F2">            text</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">align: center;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        ul li:first</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">child img {</span></span>
+<span class="line"><span style="color:#F8F8F2">            width: </span><span style="color:#BD93F9">100</span><span style="color:#FF79C6">%</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        ul li:first</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">child .title {</span></span>
+<span class="line"><span style="color:#F8F8F2">            font</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">size: 2.369rem;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        ul li img {</span></span>
+<span class="line"><span style="color:#F8F8F2">            margin</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">bottom: 0.5rem;</span></span>
+<span class="line"><span style="color:#F8F8F2">            border</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">radius: 12px;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        ul li a {</span></span>
+<span class="line"><span style="color:#F8F8F2">            display: block;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        .title {</span></span>
+<span class="line"><span style="color:#F8F8F2">            margin: </span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">            color: </span><span style="color:#50FA7B">rgb</span><span style="color:#F8F8F2">(</span><span style="color:#50FA7B">var</span><span style="color:#F8F8F2">(</span><span style="color:#FF79C6">--</span><span style="color:#F8F8F2">black));</span></span>
+<span class="line"><span style="color:#F8F8F2">            line</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">height: </span><span style="color:#BD93F9">1</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        .date {</span></span>
+<span class="line"><span style="color:#F8F8F2">            margin: </span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">            color: </span><span style="color:#50FA7B">rgb</span><span style="color:#F8F8F2">(</span><span style="color:#50FA7B">var</span><span style="color:#F8F8F2">(</span><span style="color:#FF79C6">--</span><span style="color:#F8F8F2">gray));</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        ul li a:hover h4,</span></span>
+<span class="line"><span style="color:#F8F8F2">        ul li a:hover .date {</span></span>
+<span class="line"><span style="color:#F8F8F2">            color: </span><span style="color:#50FA7B">rgb</span><span style="color:#F8F8F2">(</span><span style="color:#50FA7B">var</span><span style="color:#F8F8F2">(</span><span style="color:#FF79C6">--</span><span style="color:#F8F8F2">accent));</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        ul a:hover img {</span></span>
+<span class="line"><span style="color:#F8F8F2">            box</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">shadow: </span><span style="color:#FF79C6">var</span><span style="color:#F8F8F2">(--box-shadow);</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#F8F8F2">        @</span><span style="color:#50FA7B">media</span><span style="color:#F8F8F2"> (</span><span style="color:#50FA7B;font-style:italic">max</span><span style="color:#FF79C6">-</span><span style="color:#50FA7B;font-style:italic">width</span><span style="color:#F8F8F2">: 720</span><span style="color:#50FA7B;font-style:italic">px</span><span style="color:#F8F8F2">) {</span></span>
+<span class="line"><span style="color:#F8F8F2">            ul {</span></span>
+<span class="line"><span style="color:#F8F8F2">                gap: 0.5em;</span></span>
+<span class="line"><span style="color:#F8F8F2">            }</span></span>
+<span class="line"><span style="color:#F8F8F2">            ul li {</span></span>
+<span class="line"><span style="color:#F8F8F2">                width: </span><span style="color:#BD93F9">100</span><span style="color:#FF79C6">%</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">                text</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">align: center;</span></span>
+<span class="line"><span style="color:#F8F8F2">            }</span></span>
+<span class="line"><span style="color:#F8F8F2">            ul li:first</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">child {</span></span>
+<span class="line"><span style="color:#F8F8F2">                margin</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">bottom: </span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2">;</span></span>
+<span class="line"><span style="color:#F8F8F2">            }</span></span>
+<span class="line"><span style="color:#F8F8F2">            ul li:first</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">child .title {</span></span>
+<span class="line"><span style="color:#F8F8F2">                font</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">size: 1.563em;</span></span>
+<span class="line"><span style="color:#F8F8F2">            }</span></span>
+<span class="line"><span style="color:#F8F8F2">        }</span></span>
+<span class="line"><span style="color:#FF79C6">    &#x3C;/</span><span style="color:#F8F8F2">style</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#FF79C6">&#x3C;/</span><span style="color:#F8F8F2">PageLayout</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<p>Si comparas este código con el de <code>src/pages/blog/index.astro</code> verás que solo hay 2:</p>
+<ol>
+<li>hemos definido una propiedad <code>frontmatter</code> del tipo que acabamos de crear,</li>
+<li>y, no hay una <code>collection</code> definida.</li>
+</ol>
+<p>Con esto, tenemos un layout de archivo para colecciones completamente genérico.</p>
+<h4 id="archivo-de-blog">Archivo de blog</h4>
+<p>Definir un archivo para colección es de lo más sencillo ahora. Solo necesitamos crear el archivo <code>index.md</code> en la carpeta <code>src/pages/&#x3C;collection>/</code> donde <code>&#x3C;collection></code> es el nombre de la colección.</p>
+<p>Puesto que en este caso es el blog, sustituiremos el archivo <code>src/pages/blog/index.astro</code> por el archivo <code>src/pages/blog/index.md</code>, que tendrá el siguiente código:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#F8F8F2">---</span></span>
+<span class="line"><span style="color:#8BE9FD">title</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> Blog</span></span>
+<span class="line"><span style="color:#8BE9FD">description</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> These are our blog's posts</span></span>
+<span class="line"><span style="color:#8BE9FD">layout</span><span style="color:#FF79C6">:</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">@layouts/ArchiveLayout.astro</span><span style="color:#E9F284">'</span></span>
+<span class="line"><span style="color:#8BE9FD">collection</span><span style="color:#FF79C6">:</span><span style="color:#F1FA8C"> blog</span></span>
+<span class="line"><span style="color:#F8F8F2">---</span></span>
+<span class="line"></span></code></pre>
+<p>¿Sencillo, verdad?</p>
+<h2 id="una-pequeña-trampa">Una pequeña trampa</h2>
+<p>Gracias por llegar hasta aquí. En próximos artículos, seguiré contando cómo crear una plantilla personalizada.</p>
+<p>Aunque si no quieres crearla, puedes usar la mía (la que tendrás, más o menos, si sigues todos los pasos de todos los artículos de esta serie) con el siguiente comando:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">yarn</span><span style="color:#F1FA8C"> create</span><span style="color:#F1FA8C"> astro</span><span style="color:#BD93F9"> --</span><span style="color:#BD93F9"> --template</span><span style="color:#F1FA8C"> borjalofe/astro-blog-template</span></span>
+<span class="line"></span></code></pre> </div></article><style>
+			.hero-image {
+				width: 100%;
+			}
+			.hero-image img {
+				display: block;
+				margin: 0 auto;
+				border-radius: 12px;
+				box-shadow: var(--box-shadow);
+			}
+			.prose {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 1em;
+				color: rgb(var(--gray-dark));
+			}
+			.title {
+				margin-bottom: 1em;
+				padding: 1em 0;
+				text-align: center;
+				line-height: 1;
+			}
+			.title h1 {
+				margin: 0 0 0.5em 0;
+			}
+			.date {
+				margin-bottom: 0.5em;
+				color: rgb(var(--gray));
+			}
+			.last-updated-on {
+				font-style: italic;
+			}
+		</style>  </main>  <footer data-astro-cid-sz7xmlte>   
+&copy; 2024 Borja LoFe.
+<div class="social-links" data-astro-cid-sz7xmlte> <a href="https://twitter.com/borjalofe" target="_blank" data-astro-cid-sz7xmlte> <span class="sr-only" data-astro-cid-sz7xmlte>Sígueme en Twitter</span> <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32" data-astro-cid-sz7xmlte><path fill="currentColor" d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" data-astro-cid-sz7xmlte></path></svg> </a> <a href="https://github.com/borjalofe" target="_blank" data-astro-cid-sz7xmlte> <span class="sr-only" data-astro-cid-sz7xmlte>Mi repo en GitHub</span> <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32" data-astro-cid-sz7xmlte><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" data-astro-cid-sz7xmlte></path></svg> </a> </div> </footer>  </body></html>
